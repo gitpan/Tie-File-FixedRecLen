@@ -22,7 +22,16 @@ print "1..118\n";
 init_file($data0);
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;  # partial credit just for showing up
 
 my $o = tie @a, 'Tie::File::FixedRecLen', $file, record_length => 20, pad_char => '.';

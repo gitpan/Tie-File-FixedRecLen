@@ -2,7 +2,7 @@
 # You should read "perldoc perlmodinstall" for instructions on
 #  how to install modules like this.
 
-require 5.004;
+require 5.008;
 use strict;
 use ExtUtils::MakeMaker;
 WriteMakefile(

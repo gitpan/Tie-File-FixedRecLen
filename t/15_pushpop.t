@@ -20,7 +20,16 @@ my $data2= "......rec0$:......rec1$:......rec2$:";
 print "1..38\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;  # partial credit just for showing up
 
 my $o = tie @a, 'Tie::File::FixedRecLen', $file, record_length => 10, pad_char => '.', autochomp => 0;

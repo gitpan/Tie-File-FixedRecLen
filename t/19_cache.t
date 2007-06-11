@@ -15,7 +15,16 @@ my $V = $ENV{INTEGRITY};        # Verbose integrity checking?
 print "1..55\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;
 
 open F, "> $file" or die $!;
@@ -201,7 +210,9 @@ sub repopulate {
 END {
   undef $o;
   untie @a;
-  1 while unlink $file;
+  if (defined $file) {
+     1 while unlink $file;
+  }
 }
 
 

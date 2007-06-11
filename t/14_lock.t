@@ -25,7 +25,16 @@ my @a;
 print "1..4\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;
 
 # 2-4  Who the heck knows?

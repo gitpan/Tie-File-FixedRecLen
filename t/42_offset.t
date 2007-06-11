@@ -2,7 +2,7 @@
 
 # 2003-04-09 Tels: test the offset method from 0.94
 
-use Test::More;
+use Test::More 'no_plan';
 use strict;
 use File::Spec;
 
@@ -20,11 +20,13 @@ BEGIN
   unshift @INC, File::Spec->catdir(File::Spec->updir, 'lib');
   chdir 't' if -d 't';
   print "# INC = @INC\n";
-
-  plan tests => 24;
-
-  use_ok ('Tie::File::FixedRecLen');
   }
+
+SKIP: {
+
+eval {require Tie::File::FixedRecLen};
+skip "cannot use Tie::File::FixedRecLen with your version of Tie::File"
+    if $@;
 
 $/ = "#";	# avoid problems with \n\r vs. \n
 
@@ -67,8 +69,10 @@ $a[3] = 'water';
 is ($o->offset(4), 44, 'and fourth changed ok');
 is ($o->offset(5), 55, 'and fifth ok');
 
+
 END {
   undef $o;
   untie @a;
   1 while unlink $file;
+}
 }

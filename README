@@ -2,7 +2,7 @@ NAME
     Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 VERSION
-    This document refers to version 0.1 of Tie::File::FixedRecLen.
+    This document refers to version 0.2 of Tie::File::FixedRecLen.
 
 SYNOPSIS
      use Tie::File::FixedRecLen;
@@ -132,7 +132,7 @@ ACKNOWLEDGEMENTS
     Tie::File module.
 
 COPYRIGHT & LICENSE
-    Copyright (c) The University of Oxford 2006. All Rights Reserved.
+    Copyright (c) The University of Oxford 2007. All Rights Reserved.
 
     This program is free software; you can redistribute it and/or modify it
     under the terms of version 2 of the GNU General Public License as

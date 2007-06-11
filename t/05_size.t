@@ -12,7 +12,15 @@ my ($o, $n);
 print "1..16\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;
 
 # 2-3 FETCHSIZE 0-length file
@@ -77,7 +85,7 @@ check_contents('');
 
 # (16) 20020324 I have an idea that shortening the array will not
 # expunge a cached record at the end if one is present.
-$o->defer;
+# $o->defer; FixedRecLen disabled! - OG
 $a[3] = "record";
 my $r = $a[3];
 $#a = -1;

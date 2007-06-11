@@ -9,7 +9,16 @@ $: = Tie::File::_default_recsep();
 print "1..13\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 use Fcntl 'O_RDONLY';
 print "ok $N\n"; $N++;
 

@@ -4,16 +4,16 @@ use strict;
 use warnings FATAL => 'all';
 
 use 5.008;
-our $VERSION = 0.1;
+our $VERSION = 0.2;
 
 use base 'Tie::File';
 die "Tie::File::FixedRecLen written for Tie::File 0.97 ($Tie::File::VERSION)\n"
-    if $Tie::File::VERSION != 0.97;
+    if $Tie::File::VERSION ne '0.97';
 # v.0.97 says: "This version promises absolutely nothing about the internals,
 # which may change without notice. A future version of the module will have a
 # well-defined and stable subclassing API."
 
-my $DEBUG = $ENV{FIXEDRECLEN_DEBUG};
+my $DEBUG = $ENV{FIXEDRECLEN_DEBUG} || 0;
 my @good_opts = qw(record_length pad_dir pad_char);
 
 # ===========================================================================
@@ -186,9 +186,9 @@ sub _fill_offsets {
     my $totreclen = $self->{record_length} + $self->{recseplen};
 
     # for development
-    seek $fh,0,0;
-    my $lines = join '',<$fh>;
-    print STDERR "OFFSETS(1) content is :$lines:\n" if $DEBUG;
+    # seek $fh,0,0;
+    # my $lines = join '',<$fh>;
+    # print STDERR "OFFSETS(1) content is :$lines:\n" if $DEBUG;
 
     die "File ($size) does not appear to be using ".
         "fixed length records ($totreclen)\n" if ($size % $totreclen) != 0;
@@ -252,7 +252,7 @@ Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 =head1 VERSION
 
-This document refers to version 0.1 of Tie::File::FixedRecLen.
+This document refers to version 0.2 of Tie::File::FixedRecLen.
 
 =head1 SYNOPSIS
 

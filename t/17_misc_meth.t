@@ -11,7 +11,16 @@ $: = Tie::File::_default_recsep();
 print "1..35\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;
 
 my $o = tie @a, 'Tie::File::FixedRecLen', $file, record_length => 20, pad_char => '.', autodefer => 0;

@@ -1,6 +1,16 @@
 MANIFEST
-lib/Tie/File/FixedRecLen.pm
+META.yml
+INSTALL
+README
+Changes
+ACKNOWLEDGEMENTS
 Makefile.PL
+lib/Tie/File/FixedRecLen.pm
+debian/changelog
+debian/compat
+debian/control
+debian/copyright
+debian/rules
 t/00_version.t
 t/01_gen.t
 t/02_fetchsize.t
@@ -39,5 +49,3 @@ t/33_defer_vs.t
 t/40_abs_cache.t
 t/41_heap.t
 t/42_offset.t
-README
-META.yml                                 Module meta-data (added by MakeMaker)

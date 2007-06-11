@@ -15,7 +15,16 @@ my $data = "......rec0${:}......rec1${:}......rec2${:}";
 print "1..8\n";
 
 my $N = 1;
-use Tie::File::FixedRecLen;
+BEGIN {
+    eval {require Tie::File::FixedRecLen};
+
+    if ($@) {
+      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
+";
+      exit;
+    }
+}
+
 print "ok $N\n"; $N++;
 
 open F, "> $file" or die $!;
