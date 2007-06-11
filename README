@@ -1,0 +1,149 @@
+NAME
+    Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
+
+VERSION
+    This document refers to version 0.1 of Tie::File::FixedRecLen.
+
+SYNOPSIS
+     use Tie::File::FixedRecLen;
+ 
+     tie @array, 'Tie::File::FixedRecLen', $file, record_length => 20,
+         or die ...;
+
+DESCRIPTION
+    Use this module as a drop-in replacement to Tie::File in order to add
+    support for fixed length records within your tied files. When tieing to
+    a file, you must specify the length of a record in the file. This length
+    does not include the record separator character(s).
+
+    Apart from the configuration parameters mentioned below, you should use
+    this module in just the same way as Tie::File.
+
+    Please take just a minute to read the "CAVEATS" section, below.
+
+CAVEATS
+    *   Do not try using cacheing or deferred writing, at least not yet. The
+        current version of Tie::File is not easily overridden, and to save
+        effort the cache and deferred writing features have not been looked
+        at for Tie::File::FixedRecLen. Furthermore, their tests actually
+        fail so that's a sure sign they are really broken right now in this
+        module.
+
+    *   In Tie::File you could include the record separator character(s)
+        *within* a record, and although the module might get confused, the
+        file would still be valid.
+
+        In Tie::File::FixedRecLen this is a really stupid thing to do, so
+        please don't. Indeed, trailing multiple record separator
+        character(s) on a field will be (sliently) stripped and replaced by
+        a single record separator.
+
+    *   Anyone with multi-byte character set experience is very welcome to
+        lend support in making this module work in those environments.
+        Currently my best guess is that things will break if this module is
+        used with multi-byte character set files.
+
+CONFIGURATION
+    There are three configuration parameters you can pass when tieing to a
+    file (in addition to those offered by Tie::File). This module does not
+    support the fancy "-" prefix to option names that you have with
+    Tie::File.
+
+    record_length
+        This parameter is required. It specifies the length (in bytes) of a
+        record in the tied file. "record_length" must be an integer, and it
+        must be greater than zero. Each time a record is read or written, it
+        is compared to this length, and an error is raised if there is a
+        mismatch.
+
+        When writing records to the tied file, they are padded out to
+        "record_length" if necessary. Be aware that this length does not
+        include the record separator.
+
+    pad_char
+        This parameter is optional.
+
+        Records will be padded with this character until they are
+        "record_length" bytes in length. You should make this a single byte
+        character, otherwise things are likely to break.
+
+        The default padding character is the space character. This allows
+        the tied file to remain readable by a human. If you use leading or
+        trailing space characters in your records, then select another
+        character, and if you are not bothered about human readability, it
+        could be a control character (e.g. "^G").
+
+    pad_dir
+        This parameter is optional.
+
+        Records may be padded out to the record length either before the
+        first character or after the last character.
+
+        Set this option to "right" if you would prefer end padding; the
+        default is to pad with the "pad_char" character before the first
+        character of the record data. For example with "right" padding, a
+        record length of 10 and pad character of '.':
+
+         data: "abc123"
+         written record: "abc123....\n"
+         returned data when read back: "abc123"
+
+        And with the same settings except we'll use the module's default
+        "left" padding this time:
+
+         data: "abc123"
+         written record: "....abc123\n"
+         returned data when read back: "abc123"
+
+DIAGNOSTICS
+    "Tie::File::FixedRecLen written for Tie::File 0.97"
+        The Tie::File programmers' API is not standardized, and may change
+        in the future. You must have version 0.97 of Tie::File to use this
+        version of Tie::File::FixedRecLen.
+
+    "Useless use of Tie::File::FixedRecLen without a record_length"
+        You have forgotten to provide the "record_length" parameter when
+        tieing your file, or it is there but is not a positive integer.
+
+    "Record '...' does not match set length (...)"
+        When reading a record from the tied file, it is not the expected
+        "record_length" in size. Are you sure the file was created and
+        written by Tie::File::FixedRecLen?
+
+    "Record '...' exceeds fixed record length (...)"
+        When attempting to write a record to the tied file, you have passed
+        data which exceeds "record_length" in size. Please don't do that.
+
+    "File does not appear to be using fixed length records"
+        Internally, Tie::File and Tie::File::FixedRecLen compute offset
+        markers for each record in the file. This error indicates the file
+        is not a whole multiple of "record_length" (+ "recsep"'s length) in
+        size, which probably means it is not a Tie::File::FixedRecLen file.
+
+DEPENDENCIES
+    There are no dependencies other than the contents of the standard Perl
+    distribution.
+
+AUTHOR
+    Oliver Gorwits "<oliver.gorwits@oucs.ox.ac.uk>"
+
+ACKNOWLEDGEMENTS
+    Naturally, this would not be here were it not for the brilliant
+    Tie::File module.
+
+COPYRIGHT & LICENSE
+    Copyright (c) The University of Oxford 2006. All Rights Reserved.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the terms of version 2 of the GNU General Public License as
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+    Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+
