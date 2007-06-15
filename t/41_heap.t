@@ -26,16 +26,7 @@ print "1..1\n";
 
 my ($N, @R, $Q, $ar) = (1);
 
-BEGIN {
-    eval {require Tie::File::FixedRecLen};
-
-    if ($@) {
-      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
-";
-      exit;
-    }
-}
-
+use Tie::File::FixedRecLen;
 print "ok $N\n";
 $N++;
 exit;

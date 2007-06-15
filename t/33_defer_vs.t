@@ -21,16 +21,7 @@ my ($o, $n);
 print "1..30\n";
 
 my $N = 1;
-BEGIN {
-    eval {require Tie::File::FixedRecLen};
-
-    if ($@) {
-      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File
-";
-      exit;
-    }
-}
-
+use Tie::File::FixedRecLen;
 print "ok $N\n"; $N++;
 
 open F, "> $file" or die $!;
@@ -133,7 +124,7 @@ END {
   undef $o;
   untie @a;
   if (defined $file) {
-      1 while unlink $file;
+    1 while unlink $file;
   }
 }
 

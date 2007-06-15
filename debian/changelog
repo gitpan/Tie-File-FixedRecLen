@@ -1,3 +1,35 @@
+libtie-file-fixedreclen-perl (0.3-1) unstable; urgency=low
+
+  * New Store.pm ready for shipping, seems to work okay
+
+ -- Oliver Gorwits <oliver.gorwits@oucs.ox.ac.uk>  Fri, 15 Jun 2007 22:40:24 +0100
+
+libtie-file-fixedreclen-perl (0.2-5) unstable; urgency=low
+
+  * Bug fixes to Store.pm (got carried away and forgot it was meant to be
+    sequential writes only rather than random)
+
+ -- Oliver Gorwits <oliver.gorwits@oucs.ox.ac.uk>  Fri, 15 Jun 2007 21:09:24 +0100
+
+libtie-file-fixedreclen-perl (0.2-4) unstable; urgency=low
+
+  * Add new Store.pm package for fast write-only access
+
+ -- Oliver Gorwits <oliver.gorwits@oucs.ox.ac.uk>  Fri, 15 Jun 2007 20:01:24 +0100
+
+libtie-file-fixedreclen-perl (0.2-3) unstable; urgency=low
+
+  * Revert to original code in 0.2-1, deciding on another strategy for speed
+    improvements
+
+ -- Oliver Gorwits <oliver.gorwits@oucs.ox.ac.uk>  Fri, 15 Jun 2007 15:58:24 +0100
+
+libtie-file-fixedreclen-perl (0.2-2) unstable; urgency=low
+
+  * Test masking the offsets array with a tie, to see if it's faster
+
+ -- Oliver Gorwits <oliver.gorwits@oucs.ox.ac.uk>  Wed, 13 Jun 2007 21:19:24 +0100
+
 libtie-file-fixedreclen-perl (0.2-1) unstable; urgency=low
 
   * Change version check to be string comparison

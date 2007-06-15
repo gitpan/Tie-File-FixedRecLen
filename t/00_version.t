@@ -2,18 +2,10 @@
 
 print "1..1\n";
 
-my $testversion = "0.2";
+my $testversion = "0.3";
+use Tie::File::FixedRecLen;
 
-BEGIN {
-    eval {require Tie::File::FixedRecLen};
-
-    if ($@) {
-      print "1..0 # skipped... cannot use Tie::File::FixedRecLen with your version of Tie::File\n";
-      exit;
-    }
-}
-
-if ($Tie::File::FixedRecLen::VERSION ne $testversion) {
+if ($Tie::File::FixedRecLen::VERSION != $testversion) {
   print STDERR "
 
 *** WHOA THERE!!! ***

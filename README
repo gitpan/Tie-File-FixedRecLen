@@ -2,41 +2,57 @@ NAME
     Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 VERSION
-    This document refers to version 0.2 of Tie::File::FixedRecLen.
+    This document refers to version 0.3 of Tie::File::FixedRecLen.
 
 SYNOPSIS
+     # most often you'll want to do this...
+
      use Tie::File::FixedRecLen;
  
-     tie @array, 'Tie::File::FixedRecLen', $file, record_length => 20,
+     tie @array, 'Tie::File::FixedRecLen', $file, record_length => 20
+         or die ...;
+ 
+     # or in some circumstances...
+ 
+     use Tie::File::FixedRecLen::Store;
+ 
+     tie @array, 'Tie::File::FixedRecLen::Store', $file, record_length => 20
          or die ...;
 
 DESCRIPTION
-    Use this module as a drop-in replacement to Tie::File in order to add
-    support for fixed length records within your tied files. When tieing to
-    a file, you must specify the length of a record in the file. This length
-    does not include the record separator character(s).
+    Use Tie::File::FixedRecLen as a drop-in replacement to Tie::File in
+    order to add support for fixed length records within your tied files.
+    When tieing to a file, you must specify the length of a record in the
+    file. This length does not include the record separator character(s).
 
     Apart from the configuration parameters mentioned below, you should use
-    this module in just the same way as Tie::File.
+    Tie::File::FixedRecLen in just the same way as Tie::File. This module is
+    designed to write files which are read/write compatible with Tie::File;
 
     Please take just a minute to read the "CAVEATS" section, below.
 
+    There is an ancilliary module, Tie::File::FixedRecLen::Store, which
+    provides a subset of the features of Tie::File::FixedRecLen. It is
+    designed for fast, write-only, sequential data logging. More information
+    is given in the "STORE MODULE" section, below.
+
 CAVEATS
-    *   Do not try using cacheing or deferred writing, at least not yet. The
-        current version of Tie::File is not easily overridden, and to save
-        effort the cache and deferred writing features have not been looked
-        at for Tie::File::FixedRecLen. Furthermore, their tests actually
-        fail so that's a sure sign they are really broken right now in this
-        module.
+    *   Tie::File::FixedRecLen is written for Tie::File 0.97, and cannot be
+        used with any other version of that module. This is because there is
+        no formlized API into Tie::File, so it's quite likely things will
+        break as Tie::File's internals are changed. Sorry about that.
+
+    *   Do not try using cacheing or deferred writing, at least not yet.
+        Tie::File is quite a complicated beast, so to make life simpler for
+        Tie::File::FixedRecLen it does not try to cope with cacheing or
+        deferring.
 
     *   In Tie::File you could include the record separator character(s)
         *within* a record, and although the module might get confused, the
-        file would still be valid.
-
-        In Tie::File::FixedRecLen this is a really stupid thing to do, so
-        please don't. Indeed, trailing multiple record separator
-        character(s) on a field will be (sliently) stripped and replaced by
-        a single record separator.
+        file would still be valid. In Tie::File::FixedRecLen this is a
+        really bad thing to do, so please don't. Indeed, trailing multiple
+        record separator character(s) on a field will be (sliently) stripped
+        and replaced by a single record separator.
 
     *   Anyone with multi-byte character set experience is very welcome to
         lend support in making this module work in those environments.
@@ -119,6 +135,55 @@ DIAGNOSTICS
         markers for each record in the file. This error indicates the file
         is not a whole multiple of "record_length" (+ "recsep"'s length) in
         size, which probably means it is not a Tie::File::FixedRecLen file.
+
+STORE MODULE
+  Rationale
+    The project for which Tie::File::FixedRecLen was written required very
+    fast logging of polled SNMP data, of the order of thousands of variables
+    every couple of minutes, to a remote networked server, for a period of
+    many years.
+
+    This requires very fast writes indeed on the storage server, so you will
+    find Tie::File::FixedRecLen to be a lot quicker than Tie::File (for most
+    operations), at the obvious cost of storage space. However this module
+    still suffers in that by using the core of Tie::File, its write time is
+    still proportional to the size of the file. There is no easy way around
+    this. Whilst the effect is measured in the milliseconds as file size
+    grows, it is not suitable for use over a period of years.
+
+    Hence the ancilliary module Tie::File::FixedRecLen::Store was written,
+    for really fast writes in a file format compatible with Tie::File and
+    Tie::File::FixedRecLen, with some compromise in functionality.
+
+  Usage
+    Use Tie::File::FixedRecLen for write-only, sequential storage of
+    fixed-length record data.
+
+    Records can only be written (not read), and only at the end of an array
+    ("push"), although this may be at the immediate end or at some further
+    point and the file will be suitably padded.
+
+    The module has a very simple interface:
+
+     use Tie::File::FixedRecLen::Store;
+ 
+     tie @store, 'Tie::File::FixedRecLen::Store', $filename, record_length => $record_length
+        or die...
+
+    Note that Tie::File::FixedRecLen::Store accepts the "record_length",
+    "recsep" and "pad_char" options just like Tie::File::FixedRecLen.
+    However, padding in the elements is always "left" (i.e. element start)
+    and there is currently no option to change this.
+
+    Other than that, you can use any write method on the array, for example:
+
+     push @store, 'item';
+     push @store, 'item1', 'item2', 'etc';
+     $store[10] = 'value'; # only if $#store < 10 !!
+     $#store = 20; # again, only if $#store < 20 !!
+
+    If you try to operate on the array in any other fashion, for instance to
+    "pop" an element, the code will die.
 
 DEPENDENCIES
     There are no dependencies other than the contents of the standard Perl
