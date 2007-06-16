@@ -1,3 +1,10 @@
+libtie-file-fixedreclen-perl (0.4-1) unstable; urgency=low
+
+  * Test edits to make them skip on unsupported platforms
+  * POD tweaks
+
+ -- Oliver Gorwits <oliver.gorwits@oucs.ox.ac.uk>  Sat, 16 Jun 2007 22:49:24 +0100
+
 libtie-file-fixedreclen-perl (0.3-1) unstable; urgency=low
 
   * New Store.pm ready for shipping, seems to work okay

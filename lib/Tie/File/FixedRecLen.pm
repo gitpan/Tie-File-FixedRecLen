@@ -4,7 +4,7 @@ use strict;
 use warnings FATAL => 'all';
 
 use 5.008;
-our $VERSION = 0.3;
+our $VERSION = 0.4;
 
 use base 'Tie::File';
 die "Tie::File::FixedRecLen written for Tie::File 0.97 ($Tie::File::VERSION)\n"
@@ -252,18 +252,18 @@ Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 =head1 VERSION
 
-This document refers to version 0.3 of Tie::File::FixedRecLen.
+This document refers to version 0.4 of Tie::File::FixedRecLen.
 
 =head1 SYNOPSIS
 
- # most often you'll want to do this...
+ # for typical read/write random access...
 
  use Tie::File::FixedRecLen;
  
  tie @array, 'Tie::File::FixedRecLen', $file, record_length => 20
      or die ...;
  
- # or in some circumstances...
+ # or for faster, sequential write-only use...
  
  use Tie::File::FixedRecLen::Store;
  
@@ -279,7 +279,7 @@ not include the record separator character(s).
 
 Apart from the configuration parameters mentioned below, you should use
 Tie::File::FixedRecLen in just the same way as Tie::File. This module is
-designed to write files which are read/write compatible with Tie::File;
+designed to create files which are read/write compatible with Tie::File;
 
 Please take just a minute to read the L</CAVEATS> section, below.
 
@@ -299,11 +299,19 @@ any other version of that module. This is because there is no formlized API
 into Tie::File, so it's quite likely things will break as Tie::File's
 internals are changed. Sorry about that.
 
+=back
+
+=over 4
+
 =item *
 
 Do B<not> try using cacheing or deferred writing, at least not yet. Tie::File
 is quite a complicated beast, so to make life simpler for
 Tie::File::FixedRecLen it does not try to cope with cacheing or deferring.
+
+=back
+
+=over 4
 
 =item *
 
@@ -312,6 +320,10 @@ record, and although the module might get confused, the file would still be
 valid. In Tie::File::FixedRecLen this is a really bad thing to do, so please
 don't. Indeed, trailing multiple record separator character(s) on a field will
 be (sliently) stripped and replaced by a single record separator.
+
+=back
+
+=over 4
 
 =item *
 
@@ -459,15 +471,15 @@ Other than that, you can use any write method on the array, for example:
 
  push @store, 'item';
  push @store, 'item1', 'item2', 'etc';
- $store[10] = 'value'; # only if $#store < 10 !!
- $#store = 20; # again, only if $#store < 20 !!
+ $store[10] = 'value'; # only if $#store < 10
+ $#store = 20; # again, only if $#store < 20
 
 If you try to operate on the array in any other fashion, for instance to
-C<pop> an element, the code will die.
+C<pop> an element, the module will die.
 
 =head1 DEPENDENCIES
 
-There are no dependencies other than the contents of the standard Perl distribution.
+There are no dependencies other than the contents of the Perl 5.008 distribution.
 
 =head1 AUTHOR
 
@@ -475,8 +487,13 @@ Oliver Gorwits C<< <oliver.gorwits@oucs.ox.ac.uk> >>
 
 =head1 ACKNOWLEDGEMENTS
 
-Naturally, this would not be here were it not for the brilliant Tie::File
-module.
+Naturally this would not be here without the excellent Tie::File module.
+
+Anyone who has assisted with bug reports, etc, will be mentioned in the
+bundled ACKNOWLEDGEMENTS file.
+
+Thanks to my fiancee Suzanne, for her patience whilst I whined about not being
+able to get the performance I wanted out of this project.
 
 =head1 COPYRIGHT & LICENSE
 
