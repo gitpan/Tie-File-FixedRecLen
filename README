@@ -2,7 +2,7 @@ NAME
     Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 VERSION
-    This document refers to version 1.01 of Tie::File::FixedRecLen.
+    version 2.112530
 
 SYNOPSIS
      # for typical read/write random access...
@@ -185,25 +185,21 @@ STORE MODULE
     If you try to operate on the array in any other fashion, for instance to
     "pop" an element, the module will die.
 
-DEPENDENCIES
-    There are no dependencies other than the contents of the Perl 5.008
-    distribution.
+ACKNOWLEDGEMENTS
+    *   Naturally this would not be here without the excellent Tie::File
+        module.
+
+    *   Tie::File::VERSION check bug - Tom Hukins
+
+    *   Thanks to my wife Suzanne, for her patience whilst I whined about
+        not being able to get the performance I wanted out of this project.
 
 AUTHOR
-    Oliver Gorwits "<oliver.gorwits@oucs.ox.ac.uk>"
+    Oliver Gorwits <oliver@cpan.org>
 
-ACKNOWLEDGEMENTS
-    Naturally this would not be here without the excellent Tie::File module.
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2011 by University of Oxford.
 
-    Anyone who has assisted with bug reports, etc, will be mentioned in the
-    bundled ACKNOWLEDGEMENTS file.
-
-    Thanks to my fiancee Suzanne, for her patience whilst I whined about not
-    being able to get the performance I wanted out of this project.
-
-COPYRIGHT & LICENSE
-    Copyright (c) The University of Oxford 2008.
-
-    This library is free software; you can redistribute it and/or modify it
-    under the same terms as Perl itself.
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
 

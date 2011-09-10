@@ -1,3 +1,8 @@
+2.112530  2011-09-10 14:20:36 Europe/London
+
+  * Port to Dist::Zilla
+  * Remove version check on Tie::File - seems a strange value (D. Walrond)
+
 libtie-file-fixedreclen-perl (1.01-1) UNRELEASED; urgency=low
 
   * Move to Module::Install 
