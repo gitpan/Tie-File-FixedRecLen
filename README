@@ -2,7 +2,7 @@ NAME
     Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 VERSION
-    version 2.112530
+    version 2.112531
 
 SYNOPSIS
      # for typical read/write random access...

@@ -1,6 +1,6 @@
 package Tie::File::FixedRecLen;
 {
-  $Tie::File::FixedRecLen::VERSION = '2.112530';
+  $Tie::File::FixedRecLen::VERSION = '2.112531';
 }
 
 use strict;
@@ -256,7 +256,7 @@ Tie::File::FixedRecLen - Fixed Length Record support for Tie:File
 
 =head1 VERSION
 
-version 2.112530
+version 2.112531
 
 =head1 SYNOPSIS
 

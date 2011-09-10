@@ -1,6 +1,6 @@
 package Tie::File::FixedRecLen::Store;
 {
-  $Tie::File::FixedRecLen::Store::VERSION = '2.112530';
+  $Tie::File::FixedRecLen::Store::VERSION = '2.112531';
 }
 
 use strict;
